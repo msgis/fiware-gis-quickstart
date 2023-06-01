@@ -1,0 +1,41 @@
+{
+  "name": "@msgis/fiware-gis-quickstart-setup",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=18",
+    "npm": ">=9"
+  },
+  "volta": {
+    "node": "18.16.0",
+    "npm": "9.6.7"
+  },
+  "main": "index.js",
+  "description": "scripts and tools to setup a fiware backend",
+  "scripts": {
+    "lint": "eslint --cache --ext mjs,jsx,js .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.org/msgis/fiware-gis-quickstart.git"
+  },
+  "author": "ms.gis <msgis@msgis.com> (http://www.msgis.com)",
+  "license": "GPL-3.0-only",
+  "keywords": [
+    "fiware",
+    "ngsi",
+    "ngsi-ld",
+    "context",
+    "broker",
+    "orion",
+    "gis"
+  ],
+  "dependencies": {
+    "@supercharge/promise-pool": "^2.4.0",
+    "axios": "^1.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "eslint-plugin-jsdoc": "^44.2.7"
+  }
+}
