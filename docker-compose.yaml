@@ -1,0 +1,48 @@
+
+services:
+  orion:
+    image: quay.io/fiware/orion-ld
+    depends_on:
+      - mongo-db
+    networks:
+      - fiware
+    ports:
+      - "1026:1026"
+    command: -dbhost mongo-db -logLevel WARN -corsOrigin http://localhost:1234
+    healthcheck:
+      test: curl --fail -s http://orion:1026/version || exit 1
+  mongo-db:
+    image: mongo:4.2
+    ports:
+      - "27017:27017"
+    networks:
+      - fiware
+    command: --nojournal
+  ngsiproxy:
+    image: fiware/ngsiproxy
+    environment:
+      - TRUST_PROXY_HEADERS=TRUE
+    depends_on:
+      - orion
+    ports:
+      - "3000:3000"
+    networks:
+      - fiware
+  setup:
+    build: ./setup
+    environment:
+      - NGSI_PROXY_BASEURL=http://ngsiproxy:3000
+      - NGSI_PROXY_CALLBACK_BASEURL=http://ngsiproxy:3000
+      - CONTEXT_BROKER_BASEURL=http://orion:1026
+    depends_on:
+      - orion
+      - ngsiproxy
+    deploy:
+      restart_policy:
+        condition: none
+        max_attempts: 0
+    networks:
+      - fiware
+
+networks:
+  fiware:
