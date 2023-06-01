@@ -8,9 +8,19 @@ services:
       - fiware
     ports:
       - "1026:1026"
-    command: -dbhost mongo-db -logLevel WARN -corsOrigin http://localhost:1234
+    command: -dbhost mongo-db -logLevel WARN
     healthcheck:
       test: curl --fail -s http://orion:1026/version || exit 1
+  orionproxy:
+    build: ./corsproxy
+    environment:
+      - NGINX_PROXY_PASS=http://orion:1026/
+    ports:
+      - "2026:80"
+    depends_on:
+      - orion
+    networks:
+      - fiware
   mongo-db:
     image: mongo:4.2
     ports:
