@@ -8,6 +8,7 @@ RUN npm ci --omit=dev
 
 # default config
 ENV NGSI_PROXY_BASEURL=http://ngsiproxy:3000 \
+    NGSI_PROXY_PUBLICBASEURL=http://ngsiproxy:3000 \
     NGSI_PROXY_CALLBACK_BASEURL=http://ngsiproxy:3000 \
     CONTEXT_BROKER_BASEURL=http://orion:1026
 

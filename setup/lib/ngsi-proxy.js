@@ -6,7 +6,8 @@ async function getEntityTypes(contextBrokerBaseUrl) {
 }
 
 async function createEventSource({
-  ngsiProxyBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl, entityType
+  ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl,
+  contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl, entityType
 }) {
   // create EventSource
   const { data: { connection_id } } = await axios.post(ngsiProxyBaseUrl + '/eventsource');
@@ -29,7 +30,7 @@ async function createEventSource({
   });
   return {
     type: entityType,
-    eventSourceUrl: `${ngsiProxyBaseUrl}/eventsource/${connection_id}`
+    eventSourceUrl: `${ngsiProxyPublicBaseUrl}/eventsource/${connection_id}`
   };
 }
 
@@ -46,12 +47,13 @@ async function addNgsiProxyConfig({ contextBrokerBaseUrl, type, eventSourceUrl }
 }
 
 async function setupNgsiProxy({
-  ngsiProxyBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
+  ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
 }) {
   const entityTypes = await getEntityTypes(contextBrokerBaseUrl);
   return Promise.all(entityTypes.map(async (entityType) => {
     const { type, eventSourceUrl } = await createEventSource({
-      ngsiProxyBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl, entityType
+      ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl,
+      contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl, entityType
     });
     await addNgsiProxyConfig({ contextBrokerBaseUrl, type, eventSourceUrl });
     // eslint-disable-next-line no-console

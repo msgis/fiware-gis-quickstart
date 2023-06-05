@@ -4,6 +4,7 @@ const { setupNgsiProxy } = require('./lib/ngsi-proxy');
 
 const contextBrokerBaseUrl = process.env['CONTEXT_BROKER_BASEURL'];
 const ngsiProxyBaseUrl = process.env['NGSI_PROXY_BASEURL'];
+const ngsiProxyPublicBaseUrl = process.env['NGSI_PROXY_PUBLICBASEURL'];
 const ngsiProxyCallbackBaseUrl = process.env['NGSI_PROXY_CALLBACK_BASEURL'];
 
 async function waitFor(url) {
@@ -67,7 +68,9 @@ async function setup() {
   }
 
   if (!await entityTypeExists(contextBrokerBaseUrl, 'NgsiProxyConfig')) {
-    await setupNgsiProxy({ ngsiProxyBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl });
+    await setupNgsiProxy({
+      ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
+    });
   }
 
 }
