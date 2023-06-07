@@ -15,6 +15,14 @@ async function createEventSource({
   const { data: { callback_id} } = await axios.post(ngsiProxyBaseUrl + '/callbacks', {
     connection_id: connection_id
   });
+  // remove old subscriptions if exists
+  const { data } = await axios.get(contextBrokerBaseUrl + '/ngsi-ld/v1/subscriptions');
+  for (let i = 0; i < data.length; i++) {
+    const subscription = data[i];
+    if (subscription.entities.find((entity) => entity.type === entityType)) {
+      await axios.delete(contextBrokerBaseUrl + '/ngsi-ld/v1/subscriptions/' + subscription.id);
+    }
+  }
   // add subscription
   await axios.post(contextBrokerBaseUrl + '/ngsi-ld/v1/subscriptions', {
     description: `Notify all ${entityType} changes`,
@@ -36,6 +44,13 @@ async function createEventSource({
 
 async function addNgsiProxyConfig({ contextBrokerBaseUrl, type, eventSourceUrl }) {
   const entityType = 'NgsiProxyConfig';
+  try {
+    await axios.delete(
+      `${contextBrokerBaseUrl}/ngsi-ld/v1/entities/urn:ngsi-ld:${entityType}:${type}`
+    );
+  } catch(error) {
+    // no issue if config does not exist
+  }
   return await axios.post(contextBrokerBaseUrl + '/ngsi-ld/v1/entities', {
     id: `urn:ngsi-ld:${entityType}:${type}`,
     type: entityType,

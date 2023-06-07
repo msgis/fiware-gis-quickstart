@@ -67,11 +67,9 @@ async function setup() {
     );
   }
 
-  if (!await entityTypeExists(contextBrokerBaseUrl, 'NgsiProxyConfig')) {
-    await setupNgsiProxy({
-      ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
-    });
-  }
+  await setupNgsiProxy({
+    ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
+  });
 
 }
 
