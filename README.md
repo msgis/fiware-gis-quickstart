@@ -4,7 +4,7 @@ Get up and running with Fiware GIS integrations (QGIS, ArcGIS Pro, OpenLayers).
 
 ---
 
-This Repository contains everything you need to setup a minimal Fiware Context Broker including sample data.
+This Repository contains everything you need to setup a minimal Fiware Context Broker including sample data and support services.
 
 ## Quickstart
 
@@ -21,5 +21,35 @@ and then run docker to start the app
 
     cd fiware-gis-quickstart
     docker compose up
+
+The Fiware Context Broker (Orion LD) should be accessible on <http://localhost:1026>.
+To ensure the sample data has been imported, the entity types can be quieried via <http://localhost:1026/ngsi-ld/v1/types>.
+
+## Services
+
+The docker-compose configuration includes the following services:
+
+  - orion - the [Fireware Context Broker](https://github.com/FIWARE/context.Orion-LD), listening on <http://localhost:1026>
+  - orionproxy - a simple reverse proxy (implemented with [nginx](https://www.nginx.com/)) to allow CORS requests, listening on <http://localhost:2026>
+  - mongo-db - the database used by orion
+  - ngsiproxy - an instance of [ngsi-proxy](https://github.com/conwetlab/ngsi-proxy) which exposes orion event subscriptions as [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) for clients.
+  - setup - imports sample data and configures ngsiproxy as soon as orion and ngsiproxy are up and running. The container will stop after the setup process has been finished.
+
+## Data and entity types
+
+The setup process imports the following data into the Context Broker:
+
+  - Hydrant - [fire hydrants in Vienna](https://www.data.gv.at/katalog/en/dataset/stadt-wien_feuerhydrantenstandortewien),
+    imported as entity type `Hydrant`,
+    see <http://localhost:1026/ngsi-ld/v1/entities?type=Hydrant>.
+  - Trinkbrunnen - [drinking fountains in Vienna](https://www.data.gv.at/katalog/en/dataset/stadt-wien_trinkbrunnenstandortewien),
+    imported as entity type `Trinkbrunnen`,
+    see <http://localhost:1026/ngsi-ld/v1/entities?type=Trinkbrunnen>.
+  - Schwimmbad - [public swimming pools in Vienna](https://www.data.gv.at/katalog/en/dataset/stadt-wien_schwimmbderstandortewien),
+    imported as entity type `Schwimmbad`,
+    see <http://localhost:1026/ngsi-ld/v1/entities?type=Schwimmbad>
+
+In addition to the entity types above, there is a special type called `NgsiProxyConfig`. This type is used to store the ngsiproxy configuration,
+so a client can find the matching EventSource url for an entity type if needed.
 
 # Contribution
