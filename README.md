@@ -1,10 +1,11 @@
 # Fiware GIS Quickstart
 
-Get up and running with Fiware GIS integrations (QGIS, ArcGIS Pro, OpenLayers).
+Get up and running with Fiware GIS integrations ([QGIS](https://github.com/msgis/qgis-fiware), [ArcGIS](https://github.com/msgis/arcgis-fiware) and [OpenLayers](https://github.com/msgis/ol-fiware)).
 
 ---
 
-This Repository contains everything you need to setup a minimal Fiware Context Broker including sample data and support services.
+This repository contains everything you need to setup a minimal Fiware Context Broker including sample data and support services to quickly
+get started with the [ms.GIS](https://www.msgis.com/) Fiware GIS integrations.
 
 ## Quickstart
 
@@ -23,7 +24,14 @@ and then run docker to start the app
     docker compose up
 
 The Fiware Context Broker (Orion LD) should be accessible on <http://localhost:1026>.
-To ensure the sample data has been imported, the entity types can be quieried via <http://localhost:1026/ngsi-ld/v1/types>.
+To ensure the sample data has been imported, the entity types can be quieried via <http://localhost:1026/ngsi-ld/v1/types>
+and should contain at least `Hydrant`, `Trinkbrunnen`, `Schwimmbad` and `NgsiProxyConfig`.
+
+If everything is up and running, proceed with the configuration of one or more Fiware GIS implementations:
+
+  - [Fiware GIS integration for OpenLayers (HTML5 Web App)](https://github.com/msgis/ol-fiware)
+  - [Fiware GIS integration for QGIS](https://github.com/msgis/qgis-fiware)
+  - [Fiware GIS integration for ArcGIS](https://github.com/msgis/arcgis-fiware)
 
 ## Services
 
