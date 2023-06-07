@@ -60,4 +60,10 @@ The setup process imports the following data into the Context Broker:
 In addition to the entity types above, there is a special type called `NgsiProxyConfig`. This type is used to store the ngsiproxy configuration,
 so a client can find the matching EventSource url for an entity type if needed.
 
+To reset the data/entities the monog-db data volume can be removed by running
+
+    cd fiware-gis-quickstart
+    docker compose rm
+    docker volume rm fiware-gis-quickstart_mongo-db-data
+
 # Contribution

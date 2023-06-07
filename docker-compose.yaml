@@ -28,6 +28,8 @@ services:
     networks:
       - fiware
     command: --nojournal
+    volumes:
+      - mongo-db-data:/data
   ngsiproxy:
     image: fiware/ngsiproxy
     environment:
@@ -57,3 +59,6 @@ services:
 
 networks:
   fiware:
+
+volumes:
+  mongo-db-data:
