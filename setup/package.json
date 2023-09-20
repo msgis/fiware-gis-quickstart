@@ -31,11 +31,11 @@
     "gis"
   ],
   "dependencies": {
-    "@supercharge/promise-pool": "^2.4.0",
-    "axios": "^1.4.0"
+    "@supercharge/promise-pool": "^3.0.0",
+    "axios": "^1.5.0"
   },
   "devDependencies": {
-    "eslint": "^8.41.0",
-    "eslint-plugin-jsdoc": "^44.2.7"
+    "eslint": "^8.49.0",
+    "eslint-plugin-jsdoc": "^46.8.1"
   }
 }
