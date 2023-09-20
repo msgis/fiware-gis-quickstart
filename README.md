@@ -66,4 +66,9 @@ To reset the data/entities the monog-db data volume can be removed by running
     docker compose rm
     docker volume rm fiware-gis-quickstart_mongo-db-data
 
-# Contribution
+## Contributing
+
+Everyone is invited to get involved and contribute to the project.
+
+Simply create a [fork and pull request](https://docs.github.com/en/get-started/quickstart/contributing-to-projects) for code contributions or
+feel free to [open an issue](https://github.com/msgis/ol-fiware/issues) for any other contributions or issues.
