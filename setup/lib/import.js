@@ -54,7 +54,13 @@ async function importGeoJSONfromUrl(contextBrokerBaseUrl, entityType, srcUrl) {
   await addEntities(contextBrokerBaseUrl, entities);
 }
 
+async function importNGSILDfromUrl(contextBrokerBaseUrl, srcUrl) {
+  const { data: entities } = await axios.get(srcUrl);
+  await addEntities(contextBrokerBaseUrl, entities);
+}
+
 module.exports = {
   importGeoJSONfromUrl,
+  importNGSILDfromUrl,
   entityTypeExists
 };
