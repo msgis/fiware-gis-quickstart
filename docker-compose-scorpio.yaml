@@ -1,0 +1,67 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgis/postgis
+    networks:
+      - fiware
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ngb
+      POSTGRES_PASSWORD: ngb
+      POSTGRES_DB: ngb
+  scorpio:
+    image: scorpiobroker/all-in-one-runner:java-latest
+    depends_on:
+      - postgres
+    networks:
+      - fiware
+    ports:
+      - "9090"
+    environment:
+      DBHOST: postgres
+  scorpioproxy:
+    build: ./corsproxy
+    environment:
+      - NGINX_PROXY_PASS=http://scorpio:9090/
+    ports:
+      - "1026:80"
+    depends_on:
+      - scorpio
+    networks:
+      - fiware
+  ngsiproxy:
+    image: fiware/ngsiproxy
+    depends_on:
+      - scorpio
+    networks:
+      - fiware
+    ports:
+      - "3000:3000"
+    environment:
+      - TRUST_PROXY_HEADERS=TRUE
+  setup:
+    build: ./setup
+    environment:
+      - NGSI_PROXY_BASEURL=http://ngsiproxy:3000
+      - NGSI_PROXY_PUBLICBASEURL=http://localhost:3000
+      - NGSI_PROXY_CALLBACK_BASEURL=http://ngsiproxy:3000
+      - CONTEXT_BROKER_BASEURL=http://scorpio:9090
+    depends_on:
+      - scorpio
+      - ngsiproxy
+    deploy:
+      restart_policy:
+        condition: none
+        max_attempts: 0
+    networks:
+      - fiware
+
+networks:
+  fiware:
+
+volumes:
+  pgdata:

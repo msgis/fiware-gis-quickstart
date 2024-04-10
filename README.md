@@ -66,11 +66,25 @@ The setup process imports the following data into the Context Broker:
 In addition to the entity types above, there is a special type called `NgsiProxyConfig`. This type is used to store the ngsiproxy configuration,
 so a client can find the matching EventSource url for an entity type if needed.
 
-To reset the data/entities the monog-db data volume can be removed by running
+To reset the data/entities, the monog-db data volume can be removed by running
 
     cd fiware-gis-quickstart
     docker compose rm
     docker volume rm fiware-gis-quickstart_mongo-db-data
+
+## Scorpio Broker
+
+There is also a Docker Compose configuration available for running the [Scorpio Broker](https://github.com/ScorpioBroker/ScorpioBroker).
+To use the Scorpio Broker instead of Orion-LD, simple run the docker compose command with a different input file:
+
+    docker compose -f ./docker-compose-scorpio.yaml up
+
+The entity types imported to the Scorpio Broker are the same as for the Orion-LD variant.
+To reset the data/entities, the postgres data volume can be removed by running
+
+    cd fiware-gis-quickstart
+    docker compose -f ./docker-compose-scorpio.yaml rm
+    docker volume rm fiware-gis-quickstart_pgdata
 
 ## Contributing
 
