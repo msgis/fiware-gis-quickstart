@@ -7,29 +7,29 @@ const ngsiProxyBaseUrl = process.env['NGSI_PROXY_BASEURL'];
 const ngsiProxyPublicBaseUrl = process.env['NGSI_PROXY_PUBLICBASEURL'];
 const ngsiProxyCallbackBaseUrl = process.env['NGSI_PROXY_CALLBACK_BASEURL'];
 
-async function waitFor(url) {
+function waitFor(url) {
   // eslint-disable-next-line no-console
   console.log(`waiting for ${url}`);
   const next = (retrysLeft) => {
     if (retrysLeft < 1) {
       return Promise.reject(new Error(`service ${url} not available.`));
     } else {
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         setTimeout(() => {
           axios.get(url).then(() => {
             // eslint-disable-next-line no-console
-            console.log(`service ${url} is available`);
+            console.log(`service ${url} is available, OK`);
             return resolve();
           }).catch((error) => {
             const status = error && error.response ? error.response.status : null;
             if (status > 399 && status < 500) {
               // eslint-disable-next-line no-console
-              console.log(`service ${url} is available`);
+              console.log(`service ${url} is available, ERR`);
               return resolve();
             }
             // eslint-disable-next-line no-console
             console.log(`service ${url} not available, retrying`);
-            return next(--retrysLeft);
+            return next(--retrysLeft).then(() => resolve()).catch((error) => reject(error));
           });
         }, 2000);
       });
