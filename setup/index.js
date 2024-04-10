@@ -44,59 +44,61 @@ function waitFor(url) {
   return next(5);
 }
 
+async function tryImport(type, url) {
+  try {
+    if (!await entityTypeExists(contextBrokerBaseUrl, type)) {
+      // eslint-disable-next-line no-console
+      console.log(`importing type ${type}`);
+      await importGeoJSONfromUrl(contextBrokerBaseUrl, type, url);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log(`type ${type} already exits, skipping import`);
+    }
+  } catch(error) {
+    // eslint-disable-next-line no-console
+    console.error(`error importing type ${type}`);
+  }
+}
+
 async function setup() {
 
   await waitFor(contextBrokerBaseUrl);
 
   if (ngsiProxyBaseUrl) {
-  await waitFor(ngsiProxyBaseUrl);
+    await waitFor(ngsiProxyBaseUrl);
   }
 
-  if (!await entityTypeExists(contextBrokerBaseUrl, 'Hydrant')) {
-    await importGeoJSONfromUrl(
-      contextBrokerBaseUrl,
-      'Hydrant',
-      'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:HYDRANTOGD&srsName=EPSG:4326&outputFormat=json'
-    );
-  }
+  await tryImport(
+    'Hydrant',
+    'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:HYDRANTOGD&srsName=EPSG:4326&outputFormat=json'
+  );
 
-  if (!await entityTypeExists(contextBrokerBaseUrl, 'Trinkbrunnen')) {
-    await importGeoJSONfromUrl(
-      contextBrokerBaseUrl,
-      'Trinkbrunnen',
-      'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TRINKBRUNNENOGD&srsName=EPSG:4326&outputFormat=json'
-    );
-  }
+  await tryImport(
+    'Trinkbrunnen',
+    'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TRINKBRUNNENOGD&srsName=EPSG:4326&outputFormat=json'
+  );
 
-  if (!await entityTypeExists(contextBrokerBaseUrl, 'Schwimmbad')) {
-    await importGeoJSONfromUrl(
-      contextBrokerBaseUrl,
-      'Schwimmbad',
-      'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SCHWIMMBADOGD&srsName=EPSG:4326&outputFormat=json'
-    );
-  }
+  await tryImport(
+    'Schwimmbad',
+    'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SCHWIMMBADOGD&srsName=EPSG:4326&outputFormat=json'
+  );
 
-  if (!await entityTypeExists(contextBrokerBaseUrl, 'Anrainerparkplaetz')) {
-    await importGeoJSONfromUrl(
-      contextBrokerBaseUrl,
-      'Anrainerparkplaetz',
-      'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:PARKENANRAINEROGD&srsName=EPSG:4326&outputFormat=json'
-    );
-  }
+  await tryImport(
+    'Anrainerparkplaetz',
+    'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:PARKENANRAINEROGD&srsName=EPSG:4326&outputFormat=json'
+  );
 
-  if (!await entityTypeExists(contextBrokerBaseUrl, 'Begegnungszone')) {
-    await importGeoJSONfromUrl(
-      contextBrokerBaseUrl,
-      'Begegnungszone',
-      'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BEGEGNUNGSZONEOGD&srsName=EPSG:4326&outputFormat=json'
-    );
+  await tryImport(
+    'Begegnungszone',
+    'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BEGEGNUNGSZONEOGD&srsName=EPSG:4326&outputFormat=json'
+  );
 
   if (ngsiProxyBaseUrl) {
     // eslint-disable-next-line no-console
     console.log('setting up ngsi proxy');
-  await setupNgsiProxy({
-    ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
-  });
+    await setupNgsiProxy({
+      ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
+    });
   } else {
     // eslint-disable-next-line no-console
     console.log('skip ngsi proxy setup, NGSI_PROXY_BASEURL is empty');
