@@ -28,6 +28,11 @@ function geoJSONFeatureToEntity(entityType, feature) {
     if (ignnoreKeys.includes(key)) {
       return entityProps;
     }
+    // TODO: remove this filter?
+    // ScorpioBroker does not like null or "null" -> returns "Bad Request Data."
+    if (feature.properties[key] === null || feature.properties[key] === 'null') {
+      return entityProps;
+    }
     entityProps[key] = {
       type: 'Property',
       value: feature.properties[key]
