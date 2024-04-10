@@ -7,6 +7,12 @@ const ngsiProxyBaseUrl = process.env['NGSI_PROXY_BASEURL'];
 const ngsiProxyPublicBaseUrl = process.env['NGSI_PROXY_PUBLICBASEURL'];
 const ngsiProxyCallbackBaseUrl = process.env['NGSI_PROXY_CALLBACK_BASEURL'];
 
+process.on('uncaughtException', (err) => {
+  // eslint-disable-next-line no-console
+  console.error('uncaught exception, please report this\n' + err.stack);
+  process.exit(255);
+});
+
 function waitFor(url) {
   // eslint-disable-next-line no-console
   console.log(`waiting for ${url}`);

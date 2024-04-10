@@ -13,6 +13,9 @@ async function addEntities(contextBrokerBaseUrl, entities) {
   await PromisePool
     .withConcurrency(2)
     .for(batches)
+    .handleError(async (error /*, batch, pool */) => {
+      throw error;
+    })
     .process(async (batch) => {
       return await axios.post(`${contextBrokerBaseUrl}/ngsi-ld/v1/entityOperations/create`, batch);
     });
