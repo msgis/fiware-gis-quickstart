@@ -13,7 +13,7 @@ process.on('uncaughtException', (err) => {
   process.exit(255);
 });
 
-function waitFor(url) {
+function waitFor(url, maxRetries = 15) {
   // eslint-disable-next-line no-console
   console.log(`waiting for ${url}`);
   const next = (retrysLeft) => {
@@ -41,7 +41,7 @@ function waitFor(url) {
       });
     }
   };
-  return next(5);
+  return next(maxRetries);
 }
 
 async function tryImport(type, url) {
