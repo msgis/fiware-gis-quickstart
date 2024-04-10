@@ -56,6 +56,12 @@ The setup process imports the following data into the Context Broker:
   - Schwimmbad - [public swimming pools in Vienna](https://www.data.gv.at/katalog/en/dataset/stadt-wien_schwimmbderstandortewien),
     imported as entity type `Schwimmbad`,
     see <http://localhost:1026/ngsi-ld/v1/entities?type=Schwimmbad>
+  - Anrainerparkplaetz - [parking zones reserved to local residents of Vienna](https://www.data.gv.at/katalog/dataset/stadt-wien_anrainerinnenparkpltzewien),
+    imported as entity type `Anrainerparkplaetz`,
+    see <http://localhost:1026/ngsi-ld/v1/entities?type=Anrainerparkplaetz>
+  - Begegnungszone - [officially designated shared space zones in Vienn](https://www.data.gv.at/katalog/dataset/stadt-wien_begegnungszonenwien),
+    imported as entity type `Begegnungszone`,
+    see <http://localhost:1026/ngsi-ld/v1/entities?type=Begegnungszone>
 
 In addition to the entity types above, there is a special type called `NgsiProxyConfig`. This type is used to store the ngsiproxy configuration,
 so a client can find the matching EventSource url for an entity type if needed.

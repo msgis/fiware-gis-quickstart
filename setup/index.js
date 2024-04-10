@@ -67,6 +67,22 @@ async function setup() {
     );
   }
 
+  if (!await entityTypeExists(contextBrokerBaseUrl, 'Anrainerparkplaetz')) {
+    await importGeoJSONfromUrl(
+      contextBrokerBaseUrl,
+      'Anrainerparkplaetz',
+      'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:PARKENANRAINEROGD&srsName=EPSG:4326&outputFormat=json'
+    );
+  }
+
+  if (!await entityTypeExists(contextBrokerBaseUrl, 'Begegnungszone')) {
+    await importGeoJSONfromUrl(
+      contextBrokerBaseUrl,
+      'Begegnungszone',
+      'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BEGEGNUNGSZONEOGD&srsName=EPSG:4326&outputFormat=json'
+    );
+  }
+
   await setupNgsiProxy({
     ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
   });
