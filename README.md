@@ -37,8 +37,8 @@ If everything is up and running, proceed with the configuration of one or more F
 
 The docker-compose configuration includes the following services:
 
-  - orion - the [Fireware Context Broker](https://github.com/FIWARE/context.Orion-LD), listening on <http://localhost:1026>
-  - orionproxy - a simple reverse proxy (implemented with [nginx](https://www.nginx.com/)) to allow CORS requests, listening on <http://localhost:2026>
+  - orion - the [Fireware Context Broker](https://github.com/FIWARE/context.Orion-LD), listening on <http://localhost:2026>
+  - orionproxy - a simple reverse proxy (implemented with [nginx](https://www.nginx.com/)) to allow CORS requests, listening on <http://localhost:1026>
   - mongo-db - the database used by orion
   - ngsiproxy - an instance of [ngsi-proxy](https://github.com/conwetlab/ngsi-proxy) which exposes orion event subscriptions as [EventSource](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) for clients.
   - setup - imports sample data and configures ngsiproxy as soon as orion and ngsiproxy are up and running. The container will stop after the setup process has been finished.

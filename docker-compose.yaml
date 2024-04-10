@@ -7,7 +7,7 @@ services:
     networks:
       - fiware
     ports:
-      - "1026:1026"
+      - "2026:1026"
     command: -dbhost mongo-db -logLevel WARN
     healthcheck:
       test: curl --fail -s http://orion:1026/version || exit 1
@@ -16,7 +16,7 @@ services:
     environment:
       - NGINX_PROXY_PASS=http://orion:1026/
     ports:
-      - "2026:80"
+      - "1026:80"
     depends_on:
       - orion
     networks:
