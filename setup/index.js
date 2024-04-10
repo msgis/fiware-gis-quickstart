@@ -47,7 +47,10 @@ function waitFor(url) {
 async function setup() {
 
   await waitFor(contextBrokerBaseUrl);
+
+  if (ngsiProxyBaseUrl) {
   await waitFor(ngsiProxyBaseUrl);
+  }
 
   if (!await entityTypeExists(contextBrokerBaseUrl, 'Hydrant')) {
     await importGeoJSONfromUrl(
@@ -87,11 +90,17 @@ async function setup() {
       'Begegnungszone',
       'https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:BEGEGNUNGSZONEOGD&srsName=EPSG:4326&outputFormat=json'
     );
-  }
 
+  if (ngsiProxyBaseUrl) {
+    // eslint-disable-next-line no-console
+    console.log('setting up ngsi proxy');
   await setupNgsiProxy({
     ngsiProxyBaseUrl, ngsiProxyPublicBaseUrl, contextBrokerBaseUrl, ngsiProxyCallbackBaseUrl
   });
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('skip ngsi proxy setup, NGSI_PROXY_BASEURL is empty');
+  }
 
 }
 
