@@ -48,7 +48,8 @@ function geoJSONFeatureToEntity(entityType, feature) {
 
 async function entityTypeExists(contextBrokerBaseUrl, entityType) {
   const response = await axios.get(`${contextBrokerBaseUrl}/ngsi-ld/v1/types`);
-  return response.data.typeList.includes(entityType);
+  const typeList = response.data.typeList || response.data['ngsi-ld:typeList'];
+  return typeList.includes(entityType);
 }
 
 async function importGeoJSONfromUrl(contextBrokerBaseUrl, entityType, srcUrl) {
